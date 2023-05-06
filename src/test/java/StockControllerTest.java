@@ -1,47 +1,30 @@
-import org.junit.After;
+import model.Product;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 
 import java.io.*;
+import java.util.List;
 
 public class StockControllerTest {
-
-    private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
-    private final PrintStream originalOut = System.out;
-
-    @Before
-    public void setUpStreams() {
-        System.setOut(new PrintStream(outContent));
-    }
-
-    @After
-    public void restoreStreams() {
-        System.setOut(originalOut);
-    }
 
     @Test
     public void StockIsReadSuccessfully(){
         String STOCK_FILE = "file:src/main/resources/stock.json";
-
+        StockController stockController = new StockController(STOCK_FILE);
         try {
-            StockController stockController = new StockController(STOCK_FILE);
             stockController.readStockData();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        Assert.assertTrue(outContent.toString().contains("Tiles Alexia"));
+        List<Product> productList = stockController.getProductList();
+        Assert.assertTrue(productList.get(0).getProduct().equals("Tiles Alexia"));
     }
 
     @Test(expected = FileNotFoundException.class)
     public void StockIsNotReadSuccessfully() throws IOException {
         String STOCK_FILE = "file:src/main/resources/stockFake.json";
 
-        try {
-            StockController stockController = new StockController(STOCK_FILE);
-            stockController.readStockData();
-        } catch (IOException e) {
-            throw e;
-        }
+        StockController stockController = new StockController(STOCK_FILE);
+        stockController.readStockData();
     }
 }

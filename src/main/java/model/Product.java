@@ -11,17 +11,10 @@ public class Product {
 
     public Product() {}
 
-    @Override
-    public String toString() {
-        return "Product{" +
-                "product='" + product + '\'' +
-                ", quantity=" + quantity +
-                ", um='" + um + '\'' +
-                ", quantityPerBox=" + quantityPerBox +
-                ", pieceUm='" + pieceUm + '\'' +
-                ", pieceLength=" + pieceLength +
-                ", pieceWidth=" + pieceWidth +
-                '}';
+    // region: Data functions
+
+    public String getProduct() {
+        return product;
     }
 
     public void setProduct(String product) {
@@ -51,4 +44,6 @@ public class Product {
     public void setPieceWidth(int pieceWidth) {
         this.pieceWidth = pieceWidth;
     }
+
+    // endregion
 }

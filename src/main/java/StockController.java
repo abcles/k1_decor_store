@@ -3,10 +3,13 @@ import model.Product;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Collections;
 import java.util.List;
 
 public class StockController {
     private final String stockFileName;
+
+    private List<Product> productList;
 
     public StockController(String stockFileName) {
         this.stockFileName = stockFileName;
@@ -19,6 +22,11 @@ public class StockController {
                 new URL(stockFileName),
                 objectMapper.getTypeFactory().constructCollectionType(List.class, Product.class)
         );
-        System.out.println(productList.toString());
+
+        this.productList = productList;
+    }
+
+    public List<Product> getProductList() {
+        return Collections.unmodifiableList(productList);
     }
 }
