@@ -3,6 +3,12 @@ import org.junit.Test;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
+import java.util.Arrays;
+
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 
 public class AppTest {
@@ -34,6 +40,7 @@ public class AppTest {
         // Giving: Redirect the console error
         PrintStream originalErr = System.err;
         ByteArrayOutputStream errContent = new ByteArrayOutputStream();
+
         System.setErr(new PrintStream(errContent));
 
         // When
@@ -48,5 +55,28 @@ public class AppTest {
         System.setOut(originalErr);
     }
 
+    @Test
+    public void testReadUserMeasurementCorrectly() {
+        // Given
+        UserInputAsker mockUserInputAsker = mock(UserInputAsker.class);
+        when(mockUserInputAsker.askUserIntegerInput(
+                "Only 1 or 2 are acceptable answers. Try once again: ",
+                Arrays.asList(1, 2))
+        ).thenReturn(1);
 
+        // Redirect the console output
+        PrintStream originalOut = System.out;
+        ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(outContent));
+
+        // When
+        int userMeasurement = App.readUserMeasurement(mockUserInputAsker);
+
+        // Then
+        Assert.assertTrue(outContent.toString().contains("What surface do you want to cover (1 - width & length; 2 - m2)?"));
+        Assert.assertEquals(userMeasurement, 1);
+
+        // Restore the initial output for console
+        System.setOut(originalOut);
+    }
 }
