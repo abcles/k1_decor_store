@@ -5,8 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class StockChecker {
-    private List<Product> productList;
-    private int userMeasurement;
+    private final List<Product> productList;
+    private final int userMeasurement;
 
     public StockChecker(List<Product> productList, int userMeasurement) {
         this.productList = productList;

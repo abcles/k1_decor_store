@@ -17,7 +17,7 @@ public class StockControllerTest {
             e.printStackTrace();
         }
         List<Product> productList = stockReader.getProductList();
-        Assert.assertTrue(productList.get(0).getProductName().equals("Tiles Alexia"));
+        Assert.assertEquals("Tiles Alexia", productList.get(0).getProductName());
     }
 
     @Test(expected = FileNotFoundException.class)

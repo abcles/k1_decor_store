@@ -18,12 +18,10 @@ public class StockReader {
     public void readStockData() throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
 
-        List<Product> productList = objectMapper.readValue(
+        this.productList = objectMapper.readValue(
                 new URL(stockFileName),
                 objectMapper.getTypeFactory().constructCollectionType(List.class, Product.class)
         );
-
-        this.productList = productList;
     }
 
     public List<Product> getProductList() {

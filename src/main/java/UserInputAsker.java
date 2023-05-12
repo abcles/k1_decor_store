@@ -1,4 +1,3 @@
-import java.util.List;
 import java.util.Scanner;
 
 public class UserInputAsker {
@@ -9,7 +8,7 @@ public class UserInputAsker {
     }
 
     public Integer askUserPositiveInteger(String wrongAnswerMessage, int maxArea) {
-        Integer userAnswer = Integer.MIN_VALUE;
+        int userAnswer = Integer.MIN_VALUE;
         do {
             String introducedAnswer = scanner.nextLine();
             try {

@@ -4,11 +4,11 @@ import java.text.DecimalFormat;
 
 public class UserEligibleProduct {
 
-    private Product product;
-    private double m2PerPiece;
-    private double m2PerBox;
-    private int totalPieces;
-    private int totalBoxes;
+    private final Product product;
+    private final double m2PerPiece;
+    private final double m2PerBox;
+    private final int totalPieces;
+    private final int totalBoxes;
 
     public UserEligibleProduct(Product product,
                                double m2PerPiece,
