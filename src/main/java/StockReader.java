@@ -6,12 +6,12 @@ import java.net.URL;
 import java.util.Collections;
 import java.util.List;
 
-public class StockController {
+public class StockReader {
     private final String stockFileName;
 
     private List<Product> productList;
 
-    public StockController(String stockFileName) {
+    public StockReader(String stockFileName) {
         this.stockFileName = stockFileName;
     }
 

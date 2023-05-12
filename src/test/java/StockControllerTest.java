@@ -8,23 +8,23 @@ import java.util.List;
 public class StockControllerTest {
 
     @Test
-    public void StockIsReadSuccessfully(){
+    public void stockIsReadSuccessfully(){
         String STOCK_FILE = "file:src/main/resources/stock.json";
-        StockController stockController = new StockController(STOCK_FILE);
+        StockReader stockReader = new StockReader(STOCK_FILE);
         try {
-            stockController.readStockData();
+            stockReader.readStockData();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        List<Product> productList = stockController.getProductList();
-        Assert.assertTrue(productList.get(0).getProduct().equals("Tiles Alexia"));
+        List<Product> productList = stockReader.getProductList();
+        Assert.assertTrue(productList.get(0).getProductName().equals("Tiles Alexia"));
     }
 
     @Test(expected = FileNotFoundException.class)
-    public void StockIsNotReadSuccessfully() throws IOException {
+    public void stockIsNotReadSuccessfully() throws IOException {
         String STOCK_FILE = "file:src/main/resources/stockFake.json";
 
-        StockController stockController = new StockController(STOCK_FILE);
-        stockController.readStockData();
+        StockReader stockReader = new StockReader(STOCK_FILE);
+        stockReader.readStockData();
     }
 }

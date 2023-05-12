@@ -1,13 +1,13 @@
 [{
-  "product": "Tiles Alexia",
-  "quantity": 1010,
+  "productName": "Tiles Alexia",
+  "quantity": 100,
   "um": "box",
-  "quantityPerBox": 25,
+  "quantityPerBox": 4,
   "pieceUm": "cm",
-  "pieceLength": 5,
-  "pieceWidth": 8
+  "pieceLength": 50,
+  "pieceWidth": 50
 },{
-  "product": "Tiles Coral",
+  "productName": "Tiles Coral",
   "quantity": 130,
   "um": "box",
   "quantityPerBox": 15,
@@ -15,7 +15,7 @@
   "pieceLength": 20,
   "pieceWidth": 20
 },{
-  "product": "Tiles Francesca",
+  "productName": "Tiles Francesca",
   "quantity": 120,
   "um": "box",
   "quantityPerBox": 30,
@@ -23,7 +23,7 @@
   "pieceLength": 20,
   "pieceWidth": 10
 },{
-  "product": "Tiles Roberto",
+  "productName": "Tiles Roberto",
   "quantity": 800,
   "um": "box",
   "quantityPerBox": 10,

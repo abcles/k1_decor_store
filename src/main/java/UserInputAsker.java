@@ -8,7 +8,7 @@ public class UserInputAsker {
         scanner = new Scanner(System.in);
     }
 
-    public Integer askUserIntegerInput(String wrongAnswerMessage, List<Integer> goodAnswers) {
+    public Integer askUserPositiveInteger(String wrongAnswerMessage, int maxArea) {
         Integer userAnswer = Integer.MIN_VALUE;
         do {
             String introducedAnswer = scanner.nextLine();
@@ -18,10 +18,10 @@ public class UserInputAsker {
                 System.out.println(wrongAnswerMessage);
                 continue;
             }
-            if (!goodAnswers.contains(userAnswer)) {
+            if (userAnswer < 1 || userAnswer > maxArea) {
                 System.out.println(wrongAnswerMessage);
             }
-        } while (!goodAnswers.contains(userAnswer));
+        } while (userAnswer < 1 && userAnswer > maxArea);
         return userAnswer;
     }
 }

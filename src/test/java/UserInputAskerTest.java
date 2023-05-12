@@ -6,17 +6,17 @@ import java.util.Arrays;
 
 public class UserInputAskerTest {
     @Test
-    public void UserIsIntroducingExpectedAnswer() {
+    public void userIsIntroducingExpectedAnswer() {
         // Giving: Redirect the scanner input
         InputStream originalIn = System.in;
 
-        Integer simulatedUserInput = 1;
+        Integer simulatedUserInput = 10;
         System.setIn(new ByteArrayInputStream(simulatedUserInput.toString().getBytes()));
 
         UserInputAsker userInputAsker = new UserInputAsker();
 
         // When
-        Integer returnedAnswer = userInputAsker.askUserIntegerInput("wrongAnswerMessage", Arrays.asList(1, 2));
+        Integer returnedAnswer = userInputAsker.askUserPositiveInteger("wrongAnswerMessage", 100);
 
         // Then
         Assert.assertEquals(returnedAnswer, simulatedUserInput);
@@ -26,12 +26,12 @@ public class UserInputAskerTest {
     }
 
     @Test
-    public void UserIsIntroducingUnexpectedResult() {
+    public void userIsIntroducingUnexpectedResult() {
         // Giving: Redirect the scanner input + console output
         InputStream originalIn = System.in;
-        String simulatedUserInput = "9" +
+        String simulatedUserInput = "0" +
                 System.getProperty("line.separator") +
-                "1";
+                "20";
         System.setIn(new ByteArrayInputStream(simulatedUserInput.getBytes()));
 
         PrintStream originalOut = System.out;
@@ -41,7 +41,7 @@ public class UserInputAskerTest {
         UserInputAsker userInputAsker = new UserInputAsker();
 
         // When
-        userInputAsker.askUserIntegerInput("wrongAnswerMessage", Arrays.asList(1, 2));
+        userInputAsker.askUserPositiveInteger("wrongAnswerMessage", 100);
 
         // Then
         Assert.assertEquals(outContent.toString(), "wrongAnswerMessage" + System.getProperty("line.separator"));
@@ -52,7 +52,7 @@ public class UserInputAskerTest {
     }
 
     @Test
-    public void UserIsIntroducingAlfanumericalResult() {
+    public void userIsIntroducingAlfanumericalResult() {
         // Giving: Redirect the scanner input + console output
         InputStream originalIn = System.in;
         String simulatedUserInput = "abc" +
@@ -67,7 +67,7 @@ public class UserInputAskerTest {
         UserInputAsker userInputAsker = new UserInputAsker();
 
         // When
-        userInputAsker.askUserIntegerInput("wrongAnswerMessage", Arrays.asList(1, 2));
+        userInputAsker.askUserPositiveInteger("wrongAnswerMessage", 100);
 
         // Then
         Assert.assertEquals(outContent.toString(), "wrongAnswerMessage" + System.getProperty("line.separator"));

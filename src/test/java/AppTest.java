@@ -1,12 +1,13 @@
+import model.Product;
 import org.junit.Assert;
 import org.junit.Test;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -14,7 +15,7 @@ import static org.mockito.Mockito.when;
 public class AppTest {
 
     @Test
-    public void testWelcomeMessageIsPrinted() {
+    public void welcomeMessageIsPrinted() {
         // Giving: Redirect the console output
         PrintStream originalOut = System.out;
         ByteArrayOutputStream outContent = new ByteArrayOutputStream();
@@ -31,12 +32,12 @@ public class AppTest {
     }
 
     @Test
-    public void testReadStockCorrectly() {
-        Assert.assertTrue(App.readStockFromFile("file:src/main/resources/stock.json"));
+    public void readStockCorrectly() {
+        Assert.assertTrue(App.readStockFromFile("file:src/main/resources/stock.json").size() > 0);
     }
 
     @Test
-    public void testReadStockWithException() {
+    public void readStockWithException() {
         // Giving: Redirect the console error
         PrintStream originalErr = System.err;
         ByteArrayOutputStream errContent = new ByteArrayOutputStream();
@@ -44,25 +45,25 @@ public class AppTest {
         System.setErr(new PrintStream(errContent));
 
         // When
-        boolean isStockRead = App.readStockFromFile("file:src");
+        List<Product> stockRead = App.readStockFromFile("file:src");
 
         // Then
-        Assert.assertFalse(isStockRead);
-        Assert.assertTrue(errContent.toString().equals("[App][readStockFromFile] Exception: java.io" +
-                ".FileNotFoundException: src (Access is denied)\r\n"));
+        Assert.assertFalse(stockRead.size() > 0);
+        Assert.assertEquals("[App][readStockFromFile] Exception: java.io" +
+                ".FileNotFoundException: src (Access is denied)\r\n", errContent.toString());
 
         // Restore the initial output for console
         System.setOut(originalErr);
     }
 
     @Test
-    public void testReadUserMeasurementCorrectly() {
+    public void readUserMeasurementCorrectly() {
         // Given
         UserInputAsker mockUserInputAsker = mock(UserInputAsker.class);
-        when(mockUserInputAsker.askUserIntegerInput(
-                "Only 1 or 2 are acceptable answers. Try once again: ",
-                Arrays.asList(1, 2))
-        ).thenReturn(1);
+        when(mockUserInputAsker.askUserPositiveInteger(
+                "Only positive integers and less than 1000 are accepted. Try once again: ",
+                1000)
+        ).thenReturn(10);
 
         // Redirect the console output
         PrintStream originalOut = System.out;
@@ -73,8 +74,25 @@ public class AppTest {
         int userMeasurement = App.readUserMeasurement(mockUserInputAsker);
 
         // Then
-        Assert.assertTrue(outContent.toString().contains("What surface do you want to cover (1 - width & length; 2 - m2)?"));
-        Assert.assertEquals(userMeasurement, 1);
+        Assert.assertTrue(outContent.toString().contains("What surface do you want to cover (as m2)?"));
+        Assert.assertEquals(userMeasurement, 10);
+
+        // Restore the initial output for console
+        System.setOut(originalOut);
+    }
+
+    @Test
+    public void startSearchingForMaterialMessageIsPrinted() {
+        // Giving: Redirect the console output
+        PrintStream originalOut = System.out;
+        ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(outContent));
+
+        // When
+        App.displayAvailableMaterialForSurface(Collections.emptyList(), 1);
+
+        // Then
+        Assert.assertTrue(outContent.toString().contains("Let's see if any material is suitable for you!"));
 
         // Restore the initial output for console
         System.setOut(originalOut);

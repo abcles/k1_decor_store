@@ -1,37 +1,48 @@
 import lombok.NonNull;
+import model.Product;
 
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 public class App {
     static String STOCK_FILE = "file:src/main/resources/stock.json";
 
     public static void main(String[] args) {
         sayWelcome();
-        readStockFromFile(STOCK_FILE);
-        System.out.println(readUserMeasurement(new UserInputAsker()));
+        List<Product> productList = readStockFromFile(STOCK_FILE);
+        int userMeasurement = readUserMeasurement(new UserInputAsker());
+
+        displayAvailableMaterialForSurface(productList, userMeasurement);
     }
 
     public static void sayWelcome() {
         System.out.println("Welcome to our store, the place where your dreams came true");
     }
 
-    public static boolean readStockFromFile(String fileValue) {
+    public static List<Product> readStockFromFile(String fileValue) {
         try {
-            StockController stockController = new StockController(fileValue);
-            stockController.readStockData();
-            return true;
+            StockReader stockReader = new StockReader(fileValue);
+            stockReader.readStockData();
+            return stockReader.getProductList();
         } catch (Exception e) {
             System.err.println("[App][readStockFromFile] Exception: " + e);
-            return false;
+            return Collections.emptyList();
         }
     }
 
     public static int readUserMeasurement(@NonNull UserInputAsker userInputAsker) {
-        System.out.println("What surface do you want to cover (1 - width & length; 2 - m2)?");
-        return userInputAsker.askUserIntegerInput(
-                "Only 1 or 2 are acceptable answers. Try once again: ",
-                Arrays.asList(1, 2)
+        System.out.println("What surface do you want to cover (as m2)?");
+        return userInputAsker.askUserPositiveInteger(
+                "Only positive integers and less than 1000 are accepted. Try once again: ",
+                1000
         );
+    }
+
+    public static void displayAvailableMaterialForSurface(List<Product> productList, int userMeasurement) {
+        System.out.println("Let's see if any material is suitable for you!");
+        StockChecker stockChecker = new StockChecker(productList, userMeasurement);
+        System.out.println(stockChecker.getEligibleProductsForSurface());
     }
 
 }
