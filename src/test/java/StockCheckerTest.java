@@ -50,6 +50,6 @@ public class StockCheckerTest {
         Assert.assertEquals(0.25, eligibleProductList.get(1).getM2PerPiece(), 0.0);
         Assert.assertEquals(4, eligibleProductList.get(1).getM2PerBox(), 0.0);
         Assert.assertEquals(40, eligibleProductList.get(1).getTotalPieces());
-        Assert.assertEquals(2, eligibleProductList.get(1).getTotalBoxes());
+        Assert.assertEquals(3, eligibleProductList.get(1).getTotalBoxes());
     }
 }

@@ -21,7 +21,8 @@ public class StockChecker {
                 double m2PerBox = product.getQuantityPerBox() * m2PerPiece;
 
                 int totalPieces = (int) Math.ceil(userMeasurement / m2PerPiece);
-                int totalBoxes = (int) Math.ceil(totalPieces / product.getQuantityPerBox());
+                float totalBoxesWithRest = (float) totalPieces / product.getQuantityPerBox();
+                int totalBoxes = (int) Math.ceil(totalBoxesWithRest);
 
                 if (totalBoxes < product.getQuantity()) {
                     UserEligibleProduct userEligibleProduct = new UserEligibleProduct(
